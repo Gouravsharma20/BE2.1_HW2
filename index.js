@@ -6,6 +6,7 @@ const fs = require("fs")
 const dbConnection = require("./db/db.connection")
 
 const hotelModel = require("./model/hotel.Model");
+const { error } = require("console");
 
 
 
@@ -61,8 +62,47 @@ async function addHotel(hotels){
     }
 }
 
+async function findHotel(hotelz){
+    try{
+        const foundHotel = await hotelModel.findOne({name : hotelz})
+        console.log("Hotel found successfully ",foundHotel)
+
+    } catch (err) {
+        console.log("Error loading data",err)
+    }
+}
+
+async function findAllHotels(){
+    try {
+        const allHotel = await hotelModel.find()
+        console.log(allHotel)
+
+    } catch (e) {
+        throw e
+    }
+}
+
+async function findHotelByCategory(hotelCat){
+    try {
+        const hotelsFound = await hotelModel.find({ category:hotelCat})
+        console.log(hotelsFound)
+
+    }catch{
+        throw error
+    }
+
+}
+
+// findHotel("Green Leaf Residency")
+
 dbConnection()
 
 seedData()
 
-addHotel(newHotel)
+// addHotel(newHotel)
+
+// findHotel("Green Leaf Residency")
+
+// findAllHotels()
+
+findHotelByCategory("Mid-Range")
